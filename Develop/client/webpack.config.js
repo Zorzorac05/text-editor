@@ -18,13 +18,46 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      
+      new HtmlWebpackPlugin({
+        template: 'index.html',
+        title: 'Webpack Plugin',
+      }),
+      new InjectManifest({
+        swSrc: './src-sw.js'
+      }),
+      new WebpackPwaManifest({
+        name: 'PWA Text Generator',
+        short_name: 'Text Generator',
+        description: 'Just a text generator',
+        background_color: '#FFFFFF',
+        theme_color: '#2196F3',
+        start_url: '/',
+        icons: [
+          {
+            src: path.resolve('src/images/logo.png'),
+            sizes: [96, 128, 192, 256, 384, 512], // different logo sizes
+            destination: path.join('assets', 'icons')
+          },
+        ],
+      }),
     ],
-
     module: {
       rules: [
-        
+        {
+          test: /.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        },
       ],
-    },
-  };
+    }
+  }
 };
