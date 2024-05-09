@@ -48,6 +48,11 @@ module.exports = () => {
           use: ['style-loader', 'css-loader'],
         },
         {
+          test: /\.png$/,
+          type: 'asset/resource',
+
+        },
+        {
           test: /.m?js$/,
           exclude: /(node_modules|bower_components)/,
           use: {
